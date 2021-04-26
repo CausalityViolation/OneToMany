@@ -262,10 +262,13 @@ public class GameDao {
 
         Game game = em.find(Game.class, gameID);
 
+        game.setDev(null);
         em.getTransaction().begin();
         em.remove(game);
         em.getTransaction().commit();
         em.close();
+
+        System.out.println("<Game successfully deleted>\n");
 
     }
 
