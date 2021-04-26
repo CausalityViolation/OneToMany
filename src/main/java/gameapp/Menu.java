@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Menu {
 
     Scanner input = new Scanner(System.in);
-    Management manager = new Management();
+    GameDao manager = new GameDao();
 
     public void MainMenu() {
 
@@ -73,8 +73,10 @@ public class Menu {
         System.out.println("          View Data               ");
         System.out.println("=================================");
         System.out.println("1. View all");
-        System.out.println("2. View games");
-        System.out.println("3. View developers");
+        System.out.println("2. View all games");
+        System.out.println("3. View all developers");
+        System.out.println("4. View by by Dev ID");
+        System.out.println("5. View by Genre");
         System.out.println("\n0. Return to Main Menu");
         System.out.println("=================================");
 
@@ -91,6 +93,11 @@ public class Menu {
             case 3:
                 manager.viewDevelopers();
                 break;
+            case 4:
+                manager.viewByDev();
+                break;
+            case 5:
+                manager.viewByGenre();
             case 0:
                 return;
             default:

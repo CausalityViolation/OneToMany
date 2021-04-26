@@ -4498,7 +4498,7 @@ SELECT|sys.sys_config
       <Position>6</Position>
       <DataType>varchar(64)|0s</DataType>
     </column>
-    <column id="1101" parent="367" name="companyID">
+    <column id="1101" parent="367" name="devID">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
@@ -4507,47 +4507,39 @@ SELECT|sys.sys_config
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="1103" parent="367" name="earnings">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-    </column>
-    <key id="1104" parent="367" name="PRIMARY">
+    <key id="1103" parent="367" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>companyID</ColNames>
+      <ColNames>devID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="1105" parent="368" name="id">
+    <column id="1104" parent="368" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="1106" parent="368" name="name">
+    <column id="1105" parent="368" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="1107" parent="368" name="price">
+    <column id="1106" parent="368" name="dev_devID">
       <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-    </column>
-    <column id="1108" parent="368" name="dev_companyID">
-      <Position>4</Position>
       <DataType>int|0s</DataType>
     </column>
-    <index id="1109" parent="368" name="FK2mxw710fvkp012a2iec6qr4ja">
-      <ColNames>dev_companyID</ColNames>
+    <index id="1107" parent="368" name="FKtdf3fg0tkck255a4sgbr5dprl">
+      <ColNames>dev_devID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="1110" parent="368" name="PRIMARY">
+    <key id="1108" parent="368" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="1111" parent="368" name="FK2mxw710fvkp012a2iec6qr4ja">
-      <ColNames>dev_companyID</ColNames>
+    <foreign-key id="1109" parent="368" name="FKtdf3fg0tkck255a4sgbr5dprl">
+      <ColNames>dev_devID</ColNames>
       <RefTableName>developer</RefTableName>
-      <RefColNames>companyID</RefColNames>
+      <RefColNames>devID</RefColNames>
     </foreign-key>
-    <column id="1112" parent="369" name="next_val">
+    <column id="1110" parent="369" name="next_val">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
     </column>

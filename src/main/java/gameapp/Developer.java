@@ -1,31 +1,39 @@
 package gameapp;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Developer {
 
-    @Id
-    private int companyID;
+    private int devID;
     private String developerName;
-    private String earnings;
+    private String HQLocation;
+
+    public Developer(String developerName, String HQLocation) {
+        this.developerName = developerName;
+        this.HQLocation = HQLocation;
+    }
 
     public Developer() {
+
     }
 
-    public Developer(int companyID, String developerName, String earnings) {
-        this.developerName = developerName;
-        this.earnings = earnings;
-        this.companyID = companyID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int getDevID() {
+        return devID;
     }
 
-    public int getCompanyID() {
-        return companyID;
+    public String getHQLocation() {
+        return HQLocation;
     }
 
-    public void setCompanyID(Integer companyID) {
-        this.companyID = companyID;
+    public void setHQLocation(String HQLocation) {
+        this.HQLocation = HQLocation;
+    }
+
+    public void setDevID(int devID) {
+        this.devID = devID;
     }
 
     public String getDeveloperName() {
@@ -36,18 +44,10 @@ public class Developer {
         this.developerName = developerName;
     }
 
-    public String getEarnings() {
-        return earnings;
-    }
-
-    public void setEarnings(String earnings) {
-        this.earnings = earnings;
-    }
-
     @Override
     public String toString() {
-        return "\nCompany ID: " + companyID +
+        return "\nDeveloper ID: " + devID +
                 "\nDeveloper Name: " + developerName +
-                "\nEarnings: " + earnings;
+                "\nHQ Location: " + HQLocation;
     }
 }

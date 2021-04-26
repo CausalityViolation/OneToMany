@@ -8,10 +8,11 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Management {
+public class GameDao {
 
-    Scanner input = new Scanner(System.in);
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+    Scanner input = new Scanner(System.in);
+
 
     public void viewAll() {
 
@@ -57,18 +58,13 @@ public class Management {
 
         EntityManager em = emf.createEntityManager();
 
-        double min = Math.ceil(1000);
-        double max = Math.floor(9999);
-
-        int developerID = (int) Math.round(Math.floor(Math.random() * (max - min) + min));
-
         System.out.print("Input Developer Name: ");
         String name = input.nextLine();
 
-        System.out.print("Input Earnings: ");
-        String earnings = input.nextLine();
+        System.out.print("Input Developer HQ Location: ");
+        String HQ = input.nextLine();
 
-        Developer d1 = new Developer(developerID, name, earnings);
+        Developer d1 = new Developer(name, HQ);
 
         em.getTransaction().begin();
         em.persist(d1);
@@ -87,15 +83,45 @@ public class Management {
         System.out.print("Input Title: ");
         String title = input.nextLine();
 
-        System.out.println("Input Price: ");
-        String price = input.nextLine();
+        System.out.print("Input Genre: ");
+        String genre = input.nextLine();
 
-        Game g1 = new Game(title, price);
+        System.out.println("Would you like to add an existing Developer to your game?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        System.out.println("0. Cancel");
 
-        em.getTransaction().begin();
-        em.persist(g1);
-        em.getTransaction().commit();
-        em.close();
+        int choice = scanInt();
+
+        if (choice == 1) {
+
+            viewDevelopers();
+
+            System.out.print("Enter the ID of the Developer you'd like to connect: ");
+            int devID = scanInt();
+
+            Developer dev = em.find(Developer.class, devID);
+            Game newGame = new Game(title, genre, dev);
+
+            em.getTransaction().begin();
+            em.persist(newGame);
+            em.getTransaction().commit();
+            em.close();
+
+
+        } else if (choice == 2) {
+
+            Game newGame = new Game(title, genre);
+
+            em.getTransaction().begin();
+            em.persist(newGame);
+            em.getTransaction().commit();
+            em.close();
+
+        } else {
+            return;
+        }
+
 
         System.out.println("<Game successfully added to library>");
 
@@ -113,26 +139,25 @@ public class Management {
         Game g1 = em.find(Game.class, ID);
 
         System.out.println("What would you like to edit?");
-        System.out.println("1. Name");
-        System.out.println("2. Price");
+        System.out.println("1. Title");
+        System.out.println("2. Genre");
         System.out.println("0. Return to Main Menu");
 
         int choice = scanInt();
 
         if (choice == 1) {
 
-            System.out.println("Enter new Name: ");
-            String name = input.nextLine();
+            System.out.println("Enter new Title: ");
+            String title = input.nextLine();
 
-            g1.setName(name);
-
+            g1.setTitle(title);
 
         } else if (choice == 2) {
 
-            System.out.println("Enter new Price: ");
-            String price = input.nextLine();
+            System.out.println("Enter new Genre: ");
+            String genre = input.nextLine();
 
-            g1.setPrice(price);
+            g1.setGenre(genre);
 
         } else {
             return;
@@ -158,25 +183,24 @@ public class Management {
 
         System.out.println("What would you like to edit?");
         System.out.println("1. Developer Name");
-        System.out.println("2. Earnings");
+        System.out.println("2. HQ Location");
         System.out.println("0. Return to Main Menu");
 
         int choice = scanInt();
 
         if (choice == 1) {
 
-            System.out.println("Enter new Developer Name: ");
+            System.out.print("Enter new Developer Name: ");
             String name = input.nextLine();
 
             d1.setDeveloperName(name);
 
-
         } else if (choice == 2) {
 
-            System.out.println("Enter new Earnings: ");
-            String earnings = input.nextLine();
+            System.out.print("Enter new HQ Location: ");
+            String HQ = input.nextLine();
 
-            d1.setEarnings(earnings);
+            d1.setHQLocation(HQ);
 
         } else {
             return;
@@ -199,7 +223,7 @@ public class Management {
 
         Game game = em.find(Game.class, gameID);
 
-        System.out.println("Enter the ID of the Developer you'd like to connect: ");
+        System.out.print("Enter the ID of the Developer you'd like to connect: ");
         int devID = scanInt();
 
         Developer dev = em.find(Developer.class, devID);
@@ -242,6 +266,48 @@ public class Management {
         em.remove(game);
         em.getTransaction().commit();
         em.close();
+
+    }
+
+    public void viewByDev() {
+
+        EntityManager em = emf.createEntityManager();
+
+        System.out.print("Enter the ID of the developer whose games you'd like to view: ");
+        int devID = scanInt();
+
+        Query gamesQuery = em.createQuery("SELECT g FROM Game g WHERE g.dev.devID =: devID");
+        gamesQuery.setParameter("devID", devID);
+
+        @SuppressWarnings("unchecked")
+        List<Game> content = gamesQuery.getResultList();
+        System.out.println("<Displaying all games>");
+
+        for (Game g : content) {
+            System.out.println(g);
+        }
+        System.out.println("<End of list>\n");
+
+    }
+
+    public void viewByGenre() {
+
+        EntityManager em = emf.createEntityManager();
+
+        System.out.print("Enter the GENRE of games you'd like to view: ");
+        String genre = input.nextLine();
+
+        Query gamesQuery = em.createQuery("SELECT g FROM Game g WHERE g.genre =: genre");
+        gamesQuery.setParameter("genre", genre);
+
+        @SuppressWarnings("unchecked")
+        List<Game> content = gamesQuery.getResultList();
+        System.out.println("<Displaying all games with the GENRE " + genre + ">");
+
+        for (Game g : content) {
+            System.out.println(g);
+        }
+        System.out.println("<End of List>\n");
 
     }
 

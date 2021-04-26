@@ -1,72 +1,70 @@
 package gameapp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Game {
 
-    @Id
-    @GeneratedValue
     private int id;
-    String name;
-    String price;
+    private String title;
+    private String genre;
+    private Developer dev;
 
-    @OneToOne
-    Developer dev;
-
-
-    public Game() {
+    public Game(String title, String genre) {
+        this.title = title;
+        this.genre = genre;
     }
 
-    public Game(String name, String price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    public Game(Developer dev) {
+    public Game(String title, String genre, Developer dev) {
+        this.title = title;
+        this.genre = genre;
         this.dev = dev;
     }
 
-    public void setDev(Developer developer) {
-        this.dev = developer;
+    public Game() {
+
     }
 
-    public Developer getDev() {
-        return dev;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
+    public String getGenre() {
+        return genre;
+    }
 
-    public int getId() {
-        return id;
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    public Developer getDev() {
+        return dev;
+    }
+
+    public void setDev(Developer dev) {
+        this.dev = dev;
     }
 
     @Override
     public String toString() {
-        return "ID: " + id +
-                "\nName: " + name +
-                "\nPrice: " + price;
+        return "\nID: " + id +
+                "\nTitle: " + title +
+                "\nGenre: " + genre +
+                dev;
     }
 }
